@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Riddler Chat</title>
+  <style>
+    body { background:black; color:#00ff00; font-family:monospace; }
+    #messages { height:300px; overflow:auto; border:1px solid #00ff00; padding:10px; }
+  </style>
+</head>
+<body>
+
+<h1>❓ The Riddler’s Chat Room ❓</h1>
+
+<div id="messages"></div>
+
+<input id="input" placeholder="Type..." />
+<button onclick="send()">Send</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io();
+
+socket.on("chat message", (msg) => {
+  document.getElementById("messages").innerHTML += "<div>"+msg+"</div>";
+});
+
+function send() {
+  const input = document.getElementById("input");
+  socket.emit("chat message", input.value);
+  input.value = "";
+}
+</script>
+
+</body>
+</html>
